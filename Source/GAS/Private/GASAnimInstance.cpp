@@ -3,6 +3,7 @@
 
 #include "GASAnimInstance.h"
 #include "GASCharacter.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 
 void UGASAnimInstance::NativeInitializeAnimation()
@@ -10,11 +11,6 @@ void UGASAnimInstance::NativeInitializeAnimation()
 	Super::NativeInitializeAnimation();
 
 	Character = Cast<AGASCharacter>(TryGetPawnOwner());
-
-	if (IsValid(Character))
-	{
-		MaxSpeed = Character->GetMaxSpeed();
-	}
 }
 
 void UGASAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
@@ -24,10 +20,14 @@ void UGASAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	if (IsValid(Character))
 	{
 		Velocity = Character->GetVelocity();
-		Speed = Velocity.Size(); // VectorLengthXY
+		Speed = Velocity.Size2D();
+		MaxSpeed = Character->GetMaxSpeed();
 		NormalizedSpeed = Speed / MaxSpeed;
 		Rotation = Character->GetActorRotation();
 		Direction = CalculateDirection(Velocity, Rotation);
+
+		// MovementModeChangedDelegate
+		MovementMode = Character->GetCharacterMovement()->MovementMode;
 
 		UpdateTurnRate(DeltaSeconds);
 	}

@@ -50,6 +50,9 @@ protected:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "TurnRate")
 	float TurnSmoothingRate = 8.f;
 
+	UPROPERTY(BlueprintReadOnly, Category = "MovementMode")
+	TEnumAsByte<enum EMovementMode> MovementMode;
+
 private:
 
 	void UpdateTurnRate(float DeltaSeconds);
