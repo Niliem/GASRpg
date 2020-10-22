@@ -29,6 +29,10 @@ public:
 	FGameplayAttributeData MovementSpeed;
 	ATTRIBUTE_ACCESSORS(UGASAttributeSet, MovementSpeed)
 
+	UPROPERTY( BlueprintReadOnly, Category = "Attributes|SprintSpeedMultiplier", ReplicatedUsing = OnRep_MovementSpeed )
+	FGameplayAttributeData SprintSpeedMultiplier;
+	ATTRIBUTE_ACCESSORS(UGASAttributeSet, SprintSpeedMultiplier)
+
 protected:
 
 	void AdjustAttributeForMaxChange(FGameplayAttributeData& AffectedAttribute, const FGameplayAttributeData& MaxAttribute, float NewMaxValue, const FGameplayAttribute& AffectedAttributeProperty);
@@ -39,4 +43,7 @@ protected:
 
 	UFUNCTION()
 	virtual void OnRep_MovementSpeed(const FGameplayAttributeData& OldMovementSpeed);
+
+	UFUNCTION()
+    virtual void OnRep_SprintSpeedMultiplier(const FGameplayAttributeData& OldSprintSpeedMultiplier);
 };

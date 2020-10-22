@@ -41,6 +41,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "AbilitySystem|Attributes")
 	float GetMovementSpeedBase() const;
 
+	UFUNCTION(BlueprintCallable, Category = "AbilitySystem|Attributes")
+    float GetSprintSpeedMultiplier() const;
+
 protected:
 
 	virtual void BeginPlay() override;

@@ -113,3 +113,12 @@ float AGASCharacter::GetMovementSpeedBase() const
 	}
 	return 0.0f;
 }
+
+float AGASCharacter::GetSprintSpeedMultiplier() const
+{
+	if (IsValid(AttributeSet))
+	{
+		return AttributeSet->GetSprintSpeedMultiplier();
+	}
+	return 0.0f;
+}
