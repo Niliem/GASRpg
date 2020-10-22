@@ -4,10 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "AbilitySystemInterface.h"
 #include "GASCharacter.generated.h"
 
+class UGASAbilitySystemComponent;
+class UGASGameplayAbility;
+class UGASAttributeSet;
+class UGameplayEffect;
+
 UCLASS()
-class GAS_API AGASCharacter : public ACharacter
+class GAS_API AGASCharacter : public ACharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
@@ -15,8 +21,42 @@ public:
 
 	AGASCharacter();
 
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void PossessedBy(AController* NewController) override;
+	virtual void OnRep_PlayerState() override;
 
-	UFUNCTION(BlueprintPure, BlueprintNativeEvent, Category = "Movement")
-	float GetMaxSpeed() const;
+	// Implement IAbilitySystemInterface
+	virtual class UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+
+	UFUNCTION( BlueprintCallable, Category = "AbilitySystem|Abilities" )
+	void AcquireAbility(TSubclassOf<UGASGameplayAbility> AbilityToAcquire, int32 InputId = -1);
+
+	UFUNCTION( BlueprintCallable, Category = "AbilitySystem|Abilities" )
+	void AcquireEffect(TSubclassOf<UGameplayEffect> EffectToAcquire, float Level = 0.0f);
+
+	// Getters
+
+	UFUNCTION(BlueprintCallable, Category = "AbilitySystem|Attributes")
+	float GetMovementSpeed() const;
+
+	UFUNCTION(BlueprintCallable, Category = "AbilitySystem|Attributes")
+	float GetMovementSpeedBase() const;
+
+protected:
+
+	virtual void BeginPlay() override;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UGASAbilitySystemComponent* AbilitySystemComponent;
+
+	UPROPERTY()
+	UGASAttributeSet* AttributeSet;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "AbilitySystem|Abilities")
+	TArray<TSubclassOf<UGASGameplayAbility>> InitialAbilities;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "AbilitySystem|Effects")
+	TArray<TSubclassOf<class UGameplayEffect>> InitialEffect;
+
+	void AddInitialAbilities();
+	void AddInitialEffect();
 };

@@ -21,7 +21,7 @@ void UGASAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	{
 		Velocity = Character->GetVelocity();
 		Speed = Velocity.Size2D();
-		MaxSpeed = Character->GetMaxSpeed();
+		MaxSpeed = Character->GetMovementSpeedBase();
 		NormalizedSpeed = Speed / MaxSpeed;
 		Rotation = Character->GetActorRotation();
 		Direction = CalculateDirection(Velocity, Rotation);
