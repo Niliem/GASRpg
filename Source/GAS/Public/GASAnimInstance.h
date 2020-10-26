@@ -16,13 +16,11 @@ class GAS_API UGASAnimInstance : public UAnimInstance
 	GENERATED_BODY()
 
 public:
-
 	virtual void NativeInitializeAnimation() override;
 
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
 
 protected:
-
 	UPROPERTY(BlueprintReadOnly, Category = "Character")
 	AGASCharacter* Character;
 
@@ -54,7 +52,6 @@ protected:
 	TEnumAsByte<enum EMovementMode> MovementMode;
 
 private:
-
 	void UpdateTurnRate(float DeltaSeconds);
 
 	FRotator PrevRotation;

@@ -18,7 +18,6 @@ class GAS_API AGASCharacter : public ACharacter, public IAbilitySystemInterface
 	GENERATED_BODY()
 
 public:
-
 	AGASCharacter();
 
 	virtual void PossessedBy(AController* NewController) override;
@@ -36,6 +35,27 @@ public:
 	// Getters
 
 	UFUNCTION(BlueprintCallable, Category = "AbilitySystem|Attributes")
+    float GetHealth() const;
+
+	UFUNCTION(BlueprintCallable, Category = "AbilitySystem|Attributes")
+    float GetMaxHealth() const;
+
+	UFUNCTION(BlueprintCallable, Category = "AbilitySystem|Attributes")
+    float GetStamina() const;
+
+	UFUNCTION(BlueprintCallable, Category = "AbilitySystem|Attributes")
+    float GetMaxStamina() const;
+
+	UFUNCTION(BlueprintCallable, Category = "AbilitySystem|Attributes")
+    float GetAttackPower() const;
+
+	UFUNCTION(BlueprintCallable, Category = "AbilitySystem|Attributes")
+    float GetAttackSpeed() const;
+
+	UFUNCTION(BlueprintCallable, Category = "AbilitySystem|Attributes")
+    float GetDefence() const;
+
+	UFUNCTION(BlueprintCallable, Category = "AbilitySystem|Attributes")
 	float GetMovementSpeed() const;
 
 	UFUNCTION(BlueprintCallable, Category = "AbilitySystem|Attributes")
@@ -45,7 +65,6 @@ public:
     float GetSprintSpeedMultiplier() const;
 
 protected:
-
 	virtual void BeginPlay() override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)

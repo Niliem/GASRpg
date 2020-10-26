@@ -96,6 +96,69 @@ void AGASCharacter::AddInitialEffect()
 	}
 }
 
+float AGASCharacter::GetHealth() const
+{
+	if (IsValid(AttributeSet))
+	{
+		return AttributeSet->GetHealth();
+	}
+	return 0.0f;
+}
+
+float AGASCharacter::GetMaxHealth() const
+{
+	if (IsValid(AttributeSet))
+	{
+		return AttributeSet->GetMaxHealth();
+	}
+	return 0.0f;
+}
+
+float AGASCharacter::GetStamina() const
+{
+	if (IsValid(AttributeSet))
+	{
+		return AttributeSet->GetStamina();
+	}
+	return 0.0f;
+}
+
+float AGASCharacter::GetMaxStamina() const
+{
+	if (IsValid(AttributeSet))
+	{
+		return AttributeSet->GetMaxStamina();
+	}
+	return 0.0f;
+}
+
+float AGASCharacter::GetAttackPower() const
+{
+	if (IsValid(AttributeSet))
+	{
+		return AttributeSet->GetAttackPower();
+	}
+	return 0.0f;
+}
+
+float AGASCharacter::GetAttackSpeed() const
+{
+	if (IsValid(AttributeSet))
+	{
+		return AttributeSet->GetAttackSpeed();
+	}
+	return 0.0f;
+}
+
+float AGASCharacter::GetDefence() const
+{
+	if (IsValid(AttributeSet))
+	{
+		return AttributeSet->GetDefence();
+	}
+	return 0.0f;
+}
+
 float AGASCharacter::GetMovementSpeed() const
 {
 	if (IsValid(AttributeSet))
