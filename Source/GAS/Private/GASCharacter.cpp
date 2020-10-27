@@ -18,6 +18,13 @@ AGASCharacter::AGASCharacter()
 	AttributeSet = CreateDefaultSubobject<UGASAttributeSet>("AttributeSet");
 }
 
+void AGASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	BindGASInput();
+}
+
 void AGASCharacter::BeginPlay()
 {
 	Super::BeginPlay();
@@ -43,6 +50,7 @@ void AGASCharacter::OnRep_PlayerState()
 	{
 		AbilitySystemComponent->InitAbilityActorInfo(this, this);
 		AddInitialEffect();
+		BindGASInput();
 	}
 }
 
@@ -80,7 +88,7 @@ void AGASCharacter::AddInitialAbilities()
 	{
 		for (TSubclassOf<UGASGameplayAbility>& Ability : InitialAbilities)
 		{
-			AcquireAbility(Ability /* static_cast<int32>(Ability.GetDefaultObject()->AbilityInputID) */);
+			AcquireAbility(Ability, static_cast<int32>(Ability.GetDefaultObject()->AbilityInputID));
 		}
 	}
 }
@@ -93,6 +101,18 @@ void AGASCharacter::AddInitialEffect()
 		{
 			AcquireEffect(GameplayEffect);
 		}
+	}
+}
+
+void AGASCharacter::BindGASInput()
+{
+	if (!bGASInputBound && IsValid(AbilitySystemComponent) && IsValid(InputComponent))
+	{
+		const FGameplayAbilityInputBinds Binds(FString("Confirm"), FString("Cancel"), FString("EGASAbilityInputID"),
+            static_cast<int32>(EGASAbilityInputID::Confirm), static_cast<int32>(EGASAbilityInputID::Cancel));
+		AbilitySystemComponent->BindAbilityActivationToInputComponent(InputComponent, Binds);
+
+		bGASInputBound = true;
 	}
 }
 
@@ -128,6 +148,15 @@ float AGASCharacter::GetMaxStamina() const
 	if (IsValid(AttributeSet))
 	{
 		return AttributeSet->GetMaxStamina();
+	}
+	return 0.0f;
+}
+
+float AGASCharacter::GetStaminaCostMultiplier() const
+{
+	if (IsValid(AttributeSet))
+	{
+		return AttributeSet->GetStaminaCostMultiplier();
 	}
 	return 0.0f;
 }

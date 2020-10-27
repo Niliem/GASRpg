@@ -20,6 +20,7 @@ class GAS_API AGASCharacter : public ACharacter, public IAbilitySystemInterface
 public:
 	AGASCharacter();
 
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void OnRep_PlayerState() override;
 
@@ -45,6 +46,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "AbilitySystem|Attributes")
     float GetMaxStamina() const;
+
+	UFUNCTION(BlueprintCallable, Category = "AbilitySystem|Attributes")
+    float GetStaminaCostMultiplier() const;
 
 	UFUNCTION(BlueprintCallable, Category = "AbilitySystem|Attributes")
     float GetAttackPower() const;
@@ -81,4 +85,7 @@ protected:
 
 	void AddInitialAbilities();
 	void AddInitialEffect();
+
+	bool bGASInputBound;
+	void BindGASInput();
 };

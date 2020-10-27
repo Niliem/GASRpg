@@ -43,6 +43,10 @@ public:
 	UPROPERTY( BlueprintReadOnly, Category = "Attributes|Stamina", ReplicatedUsing = OnRep_MaxStamina )
 	FGameplayAttributeData MaxStamina;
 	ATTRIBUTE_ACCESSORS(UGASAttributeSet, MaxStamina)
+	
+	UPROPERTY( BlueprintReadOnly, Category = "Attributes|Stamina", ReplicatedUsing = OnRep_MaxStamina )
+	FGameplayAttributeData StaminaCostMultiplier;
+	ATTRIBUTE_ACCESSORS(UGASAttributeSet, StaminaCostMultiplier)
 
 	UPROPERTY( BlueprintReadOnly, Category = "Attributes|Attack", ReplicatedUsing = OnRep_AttackPower )
 	FGameplayAttributeData AttackPower;
@@ -82,6 +86,9 @@ protected:
 
 	UFUNCTION()
 	virtual void OnRep_MaxStamina(const FGameplayAttributeData& OldMaxStamina);
+
+	UFUNCTION()
+	virtual void OnRep_StaminaCostMultiplier(const FGameplayAttributeData& OldStaminaCostMultiplier);
 
 	UFUNCTION()
 	virtual void OnRep_AttackPower(const FGameplayAttributeData& OldAttackPower);
