@@ -8,8 +8,10 @@
 UGASAttributeSet::UGASAttributeSet()
 	: Health(1.0f)
 	  , MaxHealth(1.0f)
+	  , HealthRegen(0.0f)
 	  , Stamina(1.0f)
 	  , MaxStamina(1.0f)
+	  , StaminaRegen(1.0f)
 	  , StaminaCostMultiplier(1.0f)
 	  , AttackPower(1.0f)
 	  , AttackSpeed(1.0f)
@@ -85,8 +87,10 @@ void UGASAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 
 	DOREPLIFETIME_CONDITION_NOTIFY(UGASAttributeSet, Health, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UGASAttributeSet, MaxHealth, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UGASAttributeSet, HealthRegen, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UGASAttributeSet, Stamina, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UGASAttributeSet, MaxStamina, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UGASAttributeSet, StaminaRegen, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UGASAttributeSet, StaminaCostMultiplier, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UGASAttributeSet, AttackPower, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UGASAttributeSet, AttackSpeed, COND_None, REPNOTIFY_Always);
@@ -105,6 +109,11 @@ void UGASAttributeSet::OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHealt
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UGASAttributeSet, MaxHealth, OldMaxHealth);
 }
 
+void UGASAttributeSet::OnRep_HealthRegen(const FGameplayAttributeData& OldHealthRegen)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UGASAttributeSet, HealthRegen, OldHealthRegen);
+}
+
 void UGASAttributeSet::OnRep_Stamina(const FGameplayAttributeData& OldStamina)
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UGASAttributeSet, Stamina, OldStamina);
@@ -113,6 +122,11 @@ void UGASAttributeSet::OnRep_Stamina(const FGameplayAttributeData& OldStamina)
 void UGASAttributeSet::OnRep_MaxStamina(const FGameplayAttributeData& OldMaxStamina)
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UGASAttributeSet, MaxStamina, OldMaxStamina);
+}
+
+void UGASAttributeSet::OnRep_StaminaRegen(const FGameplayAttributeData& OldStaminaRegen)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UGASAttributeSet, StaminaRegen, OldStaminaRegen);
 }
 
 void UGASAttributeSet::OnRep_StaminaCostMultiplier(const FGameplayAttributeData& OldStaminaCostMultiplier)

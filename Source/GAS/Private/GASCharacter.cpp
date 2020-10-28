@@ -37,7 +37,7 @@ void AGASCharacter::PossessedBy(AController* NewController)
 	if (IsValid(AbilitySystemComponent))
 	{
 		AbilitySystemComponent->InitAbilityActorInfo(this, this);
-		AddInitialEffect();
+		AddInitialEffects();
 		AddInitialAbilities();
 	}
 }
@@ -49,7 +49,8 @@ void AGASCharacter::OnRep_PlayerState()
 	if (IsValid(AbilitySystemComponent))
 	{
 		AbilitySystemComponent->InitAbilityActorInfo(this, this);
-		AddInitialEffect();
+		AddInitialEffects();
+		
 		BindGASInput();
 	}
 }
@@ -93,7 +94,7 @@ void AGASCharacter::AddInitialAbilities()
 	}
 }
 
-void AGASCharacter::AddInitialEffect()
+void AGASCharacter::AddInitialEffects()
 {
 	if (HasAuthority() && IsValid(AbilitySystemComponent))
 	{
@@ -134,6 +135,15 @@ float AGASCharacter::GetMaxHealth() const
 	return 0.0f;
 }
 
+float AGASCharacter::GetHealthRegen() const
+{
+	if (IsValid(AttributeSet))
+	{
+		return AttributeSet->GetHealthRegen();
+	}
+	return 0.0f;
+}
+
 float AGASCharacter::GetStamina() const
 {
 	if (IsValid(AttributeSet))
@@ -148,6 +158,15 @@ float AGASCharacter::GetMaxStamina() const
 	if (IsValid(AttributeSet))
 	{
 		return AttributeSet->GetMaxStamina();
+	}
+	return 0.0f;
+}
+
+float AGASCharacter::GetStaminaRegen() const
+{
+	if (IsValid(AttributeSet))
+	{
+		return AttributeSet->GetStaminaRegen();
 	}
 	return 0.0f;
 }

@@ -42,10 +42,16 @@ public:
     float GetMaxHealth() const;
 
 	UFUNCTION(BlueprintCallable, Category = "AbilitySystem|Attributes")
+    float GetHealthRegen() const;
+
+	UFUNCTION(BlueprintCallable, Category = "AbilitySystem|Attributes")
     float GetStamina() const;
 
 	UFUNCTION(BlueprintCallable, Category = "AbilitySystem|Attributes")
     float GetMaxStamina() const;
+
+	UFUNCTION(BlueprintCallable, Category = "AbilitySystem|Attributes")
+    float GetStaminaRegen() const;
 
 	UFUNCTION(BlueprintCallable, Category = "AbilitySystem|Attributes")
     float GetStaminaCostMultiplier() const;
@@ -84,7 +90,7 @@ protected:
 	TArray<TSubclassOf<class UGameplayEffect>> InitialEffect;
 
 	void AddInitialAbilities();
-	void AddInitialEffect();
+	void AddInitialEffects();
 
 	bool bGASInputBound;
 	void BindGASInput();
