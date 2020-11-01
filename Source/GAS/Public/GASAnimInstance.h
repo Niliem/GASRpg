@@ -42,6 +42,9 @@ protected:
 	UPROPERTY(BlueprintReadOnly, Category = "Rotation")
 	float Direction;
 
+	UPROPERTY(BlueprintReadOnly, Category = "AimOffset")
+	FRotator AimOffset;
+
 	UPROPERTY(BlueprintReadOnly, Category = "TurnRate")
 	float TurnRate;
 

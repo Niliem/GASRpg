@@ -26,6 +26,8 @@ void UGASAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 		Rotation = Character->GetActorRotation();
 		Direction = CalculateDirection(Velocity, Rotation);
 
+		AimOffset = UKismetMathLibrary::NormalizedDeltaRotator(Character->GetBaseAimRotation(), Rotation);
+
 		// MovementModeChangedDelegate
 		MovementMode = Character->GetCharacterMovement()->MovementMode;
 
