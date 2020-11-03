@@ -36,34 +36,34 @@ public:
 	// Getters
 
 	UFUNCTION(BlueprintCallable, Category = "AbilitySystem|Attributes")
-    float GetHealth() const;
+	float GetHealth() const;
 
 	UFUNCTION(BlueprintCallable, Category = "AbilitySystem|Attributes")
-    float GetMaxHealth() const;
+	float GetMaxHealth() const;
 
 	UFUNCTION(BlueprintCallable, Category = "AbilitySystem|Attributes")
-    float GetHealthRegen() const;
+	float GetHealthRegen() const;
 
 	UFUNCTION(BlueprintCallable, Category = "AbilitySystem|Attributes")
-    float GetStamina() const;
+	float GetStamina() const;
 
 	UFUNCTION(BlueprintCallable, Category = "AbilitySystem|Attributes")
-    float GetMaxStamina() const;
+	float GetMaxStamina() const;
 
 	UFUNCTION(BlueprintCallable, Category = "AbilitySystem|Attributes")
-    float GetStaminaRegen() const;
+	float GetStaminaRegen() const;
 
 	UFUNCTION(BlueprintCallable, Category = "AbilitySystem|Attributes")
-    float GetStaminaCostMultiplier() const;
+	float GetStaminaCostMultiplier() const;
 
 	UFUNCTION(BlueprintCallable, Category = "AbilitySystem|Attributes")
-    float GetAttackPower() const;
+	float GetAttackPower() const;
 
 	UFUNCTION(BlueprintCallable, Category = "AbilitySystem|Attributes")
-    float GetAttackSpeed() const;
+	float GetAttackSpeed() const;
 
 	UFUNCTION(BlueprintCallable, Category = "AbilitySystem|Attributes")
-    float GetDefence() const;
+	float GetDefence() const;
 
 	UFUNCTION(BlueprintCallable, Category = "AbilitySystem|Attributes")
 	float GetMovementSpeed() const;
@@ -72,7 +72,7 @@ public:
 	float GetMovementSpeedBase() const;
 
 	UFUNCTION(BlueprintCallable, Category = "AbilitySystem|Attributes")
-    float GetSprintSpeedMultiplier() const;
+	float GetSprintSpeedMultiplier() const;
 
 protected:
 	virtual void BeginPlay() override;
@@ -86,11 +86,18 @@ protected:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "AbilitySystem|Abilities")
 	TArray<TSubclassOf<UGASGameplayAbility>> InitialAbilities;
 
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "AbilitySystem|Attributes")
+	TSubclassOf<class UGameplayEffect> InitialAttributes;
+
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "AbilitySystem|Effects")
 	TArray<TSubclassOf<class UGameplayEffect>> InitialEffect;
 
 	void AddInitialAbilities();
+	void RemoveInitialAbilities();
+
+	void InitializeAttributes();
 	void AddInitialEffects();
+	void RemoveEffects();
 
 	bool bGASInputBound;
 	void BindGASInput();

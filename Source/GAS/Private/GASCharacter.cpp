@@ -37,6 +37,7 @@ void AGASCharacter::PossessedBy(AController* NewController)
 	if (IsValid(AbilitySystemComponent))
 	{
 		AbilitySystemComponent->InitAbilityActorInfo(this, this);
+		InitializeAttributes();
 		AddInitialEffects();
 		AddInitialAbilities();
 	}
@@ -49,8 +50,8 @@ void AGASCharacter::OnRep_PlayerState()
 	if (IsValid(AbilitySystemComponent))
 	{
 		AbilitySystemComponent->InitAbilityActorInfo(this, this);
-		AddInitialEffects();
-		
+		InitializeAttributes();
+
 		BindGASInput();
 	}
 }
@@ -62,7 +63,7 @@ UAbilitySystemComponent* AGASCharacter::GetAbilitySystemComponent() const
 
 void AGASCharacter::AcquireAbility(TSubclassOf<UGASGameplayAbility> AbilityToAcquire, int32 InputId)
 {
-	if (IsValid(AbilitySystemComponent) && IsValid(AbilityToAcquire))
+	if (HasAuthority() && IsValid(AbilitySystemComponent) && IsValid(AbilityToAcquire))
 	{
 		AbilitySystemComponent->GiveAbility(FGameplayAbilitySpec(AbilityToAcquire, 1, InputId, this));
 	}
@@ -85,23 +86,52 @@ void AGASCharacter::AcquireEffect(TSubclassOf<UGameplayEffect> EffectToAcquire, 
 
 void AGASCharacter::AddInitialAbilities()
 {
+	for (TSubclassOf<UGASGameplayAbility>& Ability : InitialAbilities)
+	{
+		AcquireAbility(Ability, static_cast<int32>(Ability.GetDefaultObject()->AbilityInputID));
+	}
+}
+
+void AGASCharacter::RemoveInitialAbilities()
+{
 	if (HasAuthority() && IsValid(AbilitySystemComponent))
 	{
-		for (TSubclassOf<UGASGameplayAbility>& Ability : InitialAbilities)
+		TArray<FGameplayAbilitySpecHandle> AbilitiesToRemove;
+		for (const FGameplayAbilitySpec& Spec : AbilitySystemComponent->GetActivatableAbilities())
 		{
-			AcquireAbility(Ability, static_cast<int32>(Ability.GetDefaultObject()->AbilityInputID));
+			if ((Spec.SourceObject == this) && InitialAbilities.Contains(Spec.Ability->GetClass()))
+			{
+				AbilitiesToRemove.Add(Spec.Handle);
+			}
+		}
+
+		for (int32 i = 0; i < AbilitiesToRemove.Num(); i++)
+		{
+			AbilitySystemComponent->ClearAbility(AbilitiesToRemove[i]);
 		}
 	}
 }
 
+void AGASCharacter::InitializeAttributes()
+{
+	AcquireEffect(InitialAttributes);
+}
+
 void AGASCharacter::AddInitialEffects()
+{
+	for (TSubclassOf<UGameplayEffect>& GameplayEffect : InitialEffect)
+	{
+		AcquireEffect(GameplayEffect);
+	}
+}
+
+void AGASCharacter::RemoveEffects()
 {
 	if (HasAuthority() && IsValid(AbilitySystemComponent))
 	{
-		for (TSubclassOf<UGameplayEffect>& GameplayEffect : InitialEffect)
-		{
-			AcquireEffect(GameplayEffect);
-		}
+		FGameplayEffectQuery Query;
+		Query.EffectSource = this;
+		AbilitySystemComponent->RemoveActiveEffects(Query);
 	}
 }
 
@@ -110,7 +140,7 @@ void AGASCharacter::BindGASInput()
 	if (!bGASInputBound && IsValid(AbilitySystemComponent) && IsValid(InputComponent))
 	{
 		const FGameplayAbilityInputBinds Binds(FString("Confirm"), FString("Cancel"), FString("EGASAbilityInputID"),
-            static_cast<int32>(EGASAbilityInputID::Confirm), static_cast<int32>(EGASAbilityInputID::Cancel));
+			static_cast<int32>(EGASAbilityInputID::Confirm), static_cast<int32>(EGASAbilityInputID::Cancel));
 		AbilitySystemComponent->BindAbilityActivationToInputComponent(InputComponent, Binds);
 
 		bGASInputBound = true;
