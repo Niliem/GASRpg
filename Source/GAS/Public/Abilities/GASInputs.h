@@ -10,6 +10,7 @@ enum class EGASAbilityInputID : uint8
 	None				UMETA(DisplayName = "None"),
     Confirm				UMETA(DisplayName = "Confirm"),
     Cancel				UMETA(DisplayName = "Cancel"),
+    Attack			    UMETA(DisplayName = "Attack"),
     Jump			    UMETA(DisplayName = "Jump"),
     Sprint			    UMETA(DisplayName = "Sprint"),
     Dodge			    UMETA(DisplayName = "Dodge"),
